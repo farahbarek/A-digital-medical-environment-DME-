@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Enregistrement des images DICOM</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      background: linear-gradient(45deg, #f3e5ab, #f5deb3, #faebd7, #fff8dc);
+      background-size: 400% 400%;
+      animation: backgroundSlide 15s ease infinite;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      color: #5d4037;
+      position: relative;
+      overflow: hidden;
+      padding: 20px;
+    }
+
+    @keyframes backgroundSlide {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      margin-bottom: 30px;
+      font-size: 24px;
+      z-index: 2;
+      text-align: center;
+      text-shadow: 1px 1px 1px rgba(255,255,255,0.5);
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.75);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 30px;
+      width: 100%;
+      max-width: 500px;
+      z-index: 2;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 15px;
+      font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="datetime-local"],
+    textarea,
+    input[type="file"] {
+      width: 100%;
+      padding: 10px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      background-color: rgba(255,255,255,0.95);
+    }
+
+    input[type="submit"] {
+      background-color: #a1887f;
+      color: white;
+      font-weight: bold;
+      padding: 12px;
+      width: 100%;
+      margin-top: 20px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #8d6e63;
+      cursor: pointer;
+    }
+
+    /* Bubbles/Particles */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .bubble {
+      position: absolute;
+      bottom: -50px;
+      background-color: rgba(165, 117, 81, 0.2);
+      border-radius: 50%;
+      animation: float 10s infinite ease-in-out;
+    }
+
+    @keyframes float {
+      0% {
+        transform: translateY(0) scale(0.8);
+        opacity: 0;
+      }
+      50% {
+        opacity: 0.5;
+      }
+      100% {
+        transform: translateY(-120vh) scale(1.2);
+        opacity: 0;
+      }
+    }
+
+    /* ECG line (bottom radiology touch) */
+    .ecg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 120px;
+      z-index: 1;
+      opacity: 0.3;
+    }
+
+    .ecg path {
+      stroke: #6d4c41;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw 8s linear infinite;
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Enregistrer une étude d'imagerie 👨‍⚕️</h1>
+
+  <form action="enreg.php" method="POST" enctype="multipart/form-data">
+    <label for="patient_id">ID Patient (PID) :</label>
+    <input type="text" id="patient_id" name="patient_id" required>
+
+    <label for="study_date">Date de l'étude :</label>
+    <input type="datetime-local" id="study_date" name="study_date" required>
+
+    <label for="study_description">Description de l'étude :</label>
+    <textarea id="study_description" name="study_description" required></textarea>
+
+    <label for="dicom_image">Image DICOM (fichier .dcm) :</label>
+    <input type="file" id="dicom_image" name="dicom_image" accept=".dcm" required>
+
+    <input type="submit" value="Enregistrer">
+  </form>
+
+  <!-- Particles animation -->
+  <div class="particles">
+    <div class="bubble" style="left: 10%; width: 20px; height: 20px; animation-delay: 0s;"></div>
+    <div class="bubble" style="left: 30%; width: 30px; height: 30px; animation-delay: 1.5s;"></div>
+    <div class="bubble" style="left: 50%; width: 15px; height: 15px; animation-delay: 3s;"></div>
+    <div class="bubble" style="left: 70%; width: 25px; height: 25px; animation-delay: 2s;"></div>
+    <div class="bubble" style="left: 85%; width: 18px; height: 18px; animation-delay: 4s;"></div>
+  </div>
+
+  <!-- ECG line animation -->
+  <svg class="ecg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+    <path d="M0 60 L100 60 L110 40 L130 80 L150 40 L160 60 L300 60 
+             L310 55 L330 65 L350 55 L370 65 L390 55 L410 65 L430 55 
+             L450 65 L470 55 L490 65 L510 55 L530 65 L550 55 L570 65 
+             L590 55 L610 65 L630 55 L650 65 L670 55 L690 65 L710 55 
+             L730 65 L750 55 L770 65 L790 55 L810 65 L830 55 L850 65 
+             L870 55 L890 65 L910 55 L930 65 L950 55 L970 65 L990 55 
+             L1010 65 L1030 55 L1050 65 L1070 55 L1090 65 L1110 55 
+             L1130 65 L1150 55 L1170 65 L1200 60"/>
+  </svg>
+
+</body>
+</html>

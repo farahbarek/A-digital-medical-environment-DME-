@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ajout de Patient 🌸</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #880e4f;
+      background: linear-gradient(-45deg, #f8bbd0, #fce4ec, #3e1530, #140710);
+      background-size: 400% 400%;
+      animation: aurora 20s ease infinite;
+      position: relative;
+      overflow: hidden;
+    }
+
+    @keyframes aurora {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      font-size: 24px;
+      z-index: 2;
+      text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.5);
+    }
+
+    form {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      border-radius: 20px;
+      padding: 30px;
+      width: 90%;
+      max-width: 420px;
+      z-index: 2;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+    }
+
+    label {
+      display: block;
+      margin-top: 12px;
+      font-weight: bold;
+      font-size: 14px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      margin-top: 5px;
+      margin-bottom: 15px;
+      padding: 10px;
+      font-size: 15px;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background-color: rgba(255,255,255,0.8);
+    }
+
+    input[type="submit"] {
+      background-color: #ad1457;
+      color: white;
+      border: none;
+      font-weight: bold;
+      transition: background-color 0.3s ease;
+    }
+
+    input[type="submit"]:hover {
+      background-color: #c2185b;
+      cursor: pointer;
+    }
+
+    .gender-group {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+    }
+
+    .gender-option {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    /* ECG SVG animé en rose */
+    .ecg {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 150px;
+      z-index: 1;
+      opacity: 0.3;
+    }
+
+    .ecg path {
+      stroke: #d81b60;
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 1000;
+      stroke-dashoffset: 1000;
+      animation: draw 5s linear infinite;
+    }
+
+    @keyframes draw {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    /* Effet de particules mouvantes */
+    .particles {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .particle {
+      position: absolute;
+      border-radius: 50%;
+      background-color: #ec407a;
+      opacity: 0.5;
+      animation: moveParticle 5s infinite ease-in-out;
+    }
+
+    @keyframes moveParticle {
+      0% { transform: translate(0, 0) scale(0.5); }
+      50% { transform: translate(50px, 50px) scale(1); }
+      100% { transform: translate(0, 0) scale(0.5); }
+    }
+
+    /* Mobile responsiveness */
+    @media (max-width: 480px) {
+      h1 { font-size: 18px; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Formulaire d'Ajout de Patient 🌸</h1>
+
+  <form action="ajouter_patient.php" method="POST">
+    <label for="first_name">Prénom :</label>
+    <input type="text" id="first_name" name="first_name" required>
+
+    <label for="last_name">Nom :</label>
+    <input type="text" id="last_name" name="last_name" required>
+
+    <label for="date_of_birth">Date de naissance :</label>
+    <input type="date" id="date_of_birth" name="date_of_birth" required>
+
+    <label>Sexe :</label>
+    <div class="gender-group">
+      <div class="gender-option">
+        <input type="radio" id="male" name="gender" value="M" required>
+        <label for="male">Homme</label>
+      </div>
+      <div class="gender-option">
+        <input type="radio" id="female" name="gender" value="F">
+        <label for="female">Femme</label>
+      </div>
+      <div class="gender-option">
+        <input type="radio" id="Autre" name="gender" value="A">
+        <label for="Autre">Autre</label>
+      </div>
+    </div>
+
+    <label for="address">Adresse :</label>
+    <textarea id="address" name="address" rows="2"></textarea>
+
+    <label for="email">Email :</label>
+    <input type="email" id="email" name="email">
+
+    <input type="submit" value="Enregistrer le Patient">
+  </form>
+
+  <!-- ECG Animation -->
+  <svg class="ecg" viewBox="0 0 1200 150" preserveAspectRatio="none">
+    <path d="M0 80 L100 80 L110 60 L130 100 L150 60 L160 80 L200 80 L210 75 L230 85 L250 75 L270 85 L290 75 L310 85 L330 75 L350 85 L370 75 L390 85 L410 75 L430 85 L450 75 L470 85 L490 75 L510 85 L530 75 L550 85 L570 75 L590 85 L610 75 L630 85 L650 75 L670 85 L690 75 L710 85 L730 75 L750 85 L770 75 L790 85 L810 75 L830 85 L850 75 L870 85 L890 75 L910 85 L930 75 L950 85 L970 75 L990 85 L1010 75 L1030 85 L1050 75 L1070 85 L1090 75 L1110 85 L1130 75 L1150 85 L1170 75 L1200 80" />
+  </svg>
+
+  <!-- Particules mouvantes -->
+  <div class="particles">
+    <div class="particle" style="width: 10px; height: 10px; left: 10%; animation-delay: 0s;"></div>
+    <div class="particle" style="width: 15px; height: 15px; left: 25%; animation-delay: 1s;"></div>
+    <div class="particle" style="width: 8px; height: 8px; left: 40%; animation-delay: 2s;"></div>
+    <div class="particle" style="width: 12px; height: 12px; left: 60%; animation-delay: 1.5s;"></div>
+    <div class="particle" style="width: 14px; height: 14px; left: 80%; animation-delay: 2.5s;"></div>
+  </div>
+
+</body>
+</html>

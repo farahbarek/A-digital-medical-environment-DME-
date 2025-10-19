@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Connexion DME</title>
+  <style>
+    :root {
+      --green-light: #d0f0d0;
+      --green-dark: #005c4b;
+      --blue-sky: #a8dadc;
+      --off-white: #f1f8f6;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(135deg, #e8fdf5, #c7f9cc);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Aurora animation */
+    .aurora {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 30% 30%, rgba(100, 255, 200, 0.2), transparent 70%),
+                  radial-gradient(circle at 70% 70%, rgba(0, 200, 150, 0.2), transparent 70%);
+      animation: aurora 10s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+
+    @keyframes aurora {
+      0% {
+        transform: scale(1) translate(0, 0);
+      }
+      100% {
+        transform: scale(1.2) translate(20px, -20px);
+      }
+    }
+
+    .login-box {
+      background: var(--off-white);
+      border-radius: 20px;
+      box-shadow: 0 12px 25px var(--shadow);
+      padding: 2rem;
+      max-width: 400px;
+      width: 90%;
+      z-index: 1;
+      position: relative;
+    }
+
+    .login-box h2 {
+      color: var(--green-dark);
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.4rem;
+      font-weight: 600;
+      color: var(--green-dark);
+    }
+
+    input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid var(--blue-sky);
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: 0.3s ease;
+    }
+
+    input:focus {
+      border-color: var(--green-dark);
+      outline: none;
+      box-shadow: 0 0 5px rgba(0, 92, 75, 0.3);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--green-dark);
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 1rem;
+    }
+
+    button:hover {
+      background: #003e33;
+    }
+
+    .links {
+      text-align: center;
+      margin-top: 1rem;
+    }
+
+    .links a {
+      text-decoration: none;
+      color: var(--green-dark);
+      font-size: 0.9rem;
+    }
+
+    .links a:hover {
+      text-decoration: underline;
+    }
+
+    /* SVG ECG line animation */
+    .ecg-line {
+      position: absolute;
+      bottom: 30px;
+      left: 0;
+      width: 100%;
+      z-index: 0;
+    }
+
+    svg path {
+      stroke: var(--green-dark);
+      stroke-width: 2;
+      fill: none;
+      stroke-dasharray: 800;
+      stroke-dashoffset: 800;
+      animation: dash 4s linear infinite;
+    }
+
+    @keyframes dash {
+      to {
+        stroke-dashoffset: 0;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .login-box {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="aurora"></div>
+
+  <div class="login-box">
+    <h2>Connexion au DME</h2>
+    <form action="login.php" method="POST">
+      <div class="form-group">
+        <label for="id_code">Code d'identification</label>
+        <input type="text" id="id_code" name="id_code" required placeholder="Ex: DME1234">
+      </div>
+      <div class="form-group">
+        <label for="password">Mot de passe</label>
+        <input type="password" id="password" name="password" required placeholder="Votre mot de passe">
+      </div>
+      <button type="submit">Se connecter</button>
+      <div class="links">
+        <a href="#">Mot de passe oublié ?</a>
+      </div>
+    </form>
+  </div>
+
+  <!-- ECG animation -->
+  <div class="ecg-line">
+    <svg viewBox="0 0 800 100" preserveAspectRatio="none" height="100">
+      <path d="M0,50 L50,50 L70,20 L90,80 L110,50 L160,50 L180,30 L200,70 L220,50 L800,50" />
+    </svg>
+  </div>
+
+</body>
+</html>
